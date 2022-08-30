@@ -30,10 +30,15 @@ def show_off_predictions(model, x, y):
         plt.imshow(im_shaped)
 
         prediction_name = list(open_dataset.category_mappings.keys())[prediction.index(max(prediction))]
-        print("Prediction:", prediction_name)
+        print("\nPrediction:", prediction_name)
         actual_name = list(open_dataset.category_mappings.keys())[classification.index(1)]
         print("Actual:", actual_name)
+        if prediction_name != actual_name:
+            print("INCORRECT")
 
+        mgr = plt.get_current_fig_manager()
+        # move to top left, allows exiting each window easier as it doesn't move
+        mgr.window.wm_geometry("+0+0")
         plt.show()
 
 
@@ -78,9 +83,9 @@ if MODEL_NAME:
 nn = Sequential()
 nn.add(Conv2D(32, (3, 3), activation="relu", input_shape=(35, 35, 3)))
 nn.add(MaxPooling2D((2, 2)))
-nn.add(Conv2D(64, (3, 3), activation="relu", input_shape=(35, 35, 3)))
+nn.add(Conv2D(64, (3, 3), activation="relu"))
 nn.add(MaxPooling2D((2, 2)))
-nn.add(Conv2D(128, (3, 3), activation="relu", input_shape=(35, 35, 3)))
+nn.add(Conv2D(128, (3, 3), activation="relu"))
 nn.add(Flatten())
 
 nn.add(Dense(64, activation="relu"))
